@@ -3,16 +3,27 @@ import { ImageBackground, Text, View, StyleSheet, Button, ScrollView, FlatList, 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import GameScreen from './Screens/GameScreen';
 import StartGameScreen from './Screens/StartGame';
-
+import GameOverScreen from './Screens/GameOverScreen';
 
 function App() {
   const [userNumber, setUserNumber] = useState()
+  const [gameOver, setGameOver] = useState(false)
+
   function showGameScreen(finalisedNumber) {
     setUserNumber(finalisedNumber)
   }
   let Screen = <StartGameScreen onNumberConfirmed={showGameScreen}/>
+
+  function onGameFinished() {
+    console.log('called game finished')
+    console.log(gameOver)
+    setGameOver(true)
+  }
   if (userNumber) {
-    Screen = <GameScreen/>
+    Screen = <GameScreen userInput={userNumber} onGameOver={onGameFinished}/>
+  }
+  if (gameOver) {
+    Screen =  <GameOverScreen/>
   }
   return (
     <View style={style.rootView}>
