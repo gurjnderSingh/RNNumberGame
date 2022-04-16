@@ -8,45 +8,52 @@ import GameOverScreen from './Screens/GameOverScreen';
 function App() {
   const [userNumber, setUserNumber] = useState()
   const [gameOver, setGameOver] = useState(false)
+  const [totalRounds, setTotalRounds] = useState(0)
 
   function showGameScreen(finalisedNumber) {
     setUserNumber(finalisedNumber)
   }
-  let Screen = <StartGameScreen onNumberConfirmed={showGameScreen}/>
+  let Screen = <StartGameScreen onNumberConfirmed={showGameScreen} />
 
-  function onGameFinished() {
-    console.log('called game finished')
+  function onGameFinished(totalRounds) {
     console.log(gameOver)
     setGameOver(true)
+    setTotalRounds(totalRounds)
+  }
+  function startGameAgain() {
+    setGameOver(false)
+    setUserNumber(null)
   }
   if (userNumber) {
-    Screen = <GameScreen userInput={userNumber} onGameOver={onGameFinished}/>
+    Screen = <GameScreen userInput={userNumber} onGameOver={onGameFinished} />
   }
   if (gameOver) {
-    Screen =  <GameOverScreen/>
+    Screen = <GameOverScreen userInput={userNumber} roundedNumber={totalRounds} onGameAgainStart={startGameAgain} />
   }
   return (
     <View style={style.rootView}>
-      {/* <ImageBackground
+      <ImageBackground
         style={style.rootView}
-        source={require('./Assests/alll.png')}
-        resizeMode="contain"
+        source={require('./Assests/Bg.png')}
+        resizeMode="cover"
         imageStyle={style.opacity}
-      > */}
-        <SafeAreaView style={style.rootView}> 
-          {Screen}
-        </SafeAreaView>
-      {/* </ImageBackground> */}
+      >
+      <SafeAreaView style={style.rootView}>
+        {Screen}
+      </SafeAreaView>
+      </ImageBackground>
     </View>
   )
 }
 const style = StyleSheet.create({
   rootView: {
     flex: 1,
-    backgroundColor:Colors.backgroundColor
+    flexDirection:'column',
+    // alignItems:'center'
+    // backgroundColor: 'white'
   },
   backgroundImage: {
-    opacity: 0.1
+    opacity: 0.2
   }
 })
 export default App;

@@ -17,7 +17,9 @@ const style =  StyleSheet.create({
         padding:16,
         textAlign:'center',
         borderRadius:20,
-        fontWeight:'700'
-
+        fontWeight:'700',
+        marginVertical: 30,
+        marginHorizontal: 30
+        
     }
 })
