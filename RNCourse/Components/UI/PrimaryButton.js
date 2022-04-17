@@ -1,9 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, Pressable } from 'react-native'
 import Colors from '../../Constants/colors'
-function ActionHandler() {
-    console.log('pressed')
-}
+
 // function PrimaryButton({children}) { // destructring
 function PrimaryButton(props) { //
     return (

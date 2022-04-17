@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Alert, FlatList } from 'react-native'
+import { Text, View, StyleSheet, Alert, FlatList, useWindowDimensions } from 'react-native'
 import Title from '../Components/UI/Title'
 import NumberContainer from '../Components/Game/NumberContainer'
 import Colors from '../Constants/colors'
@@ -19,6 +19,7 @@ let minBoundary = 1
 let maxBoundry = 100
 
 function GameScreen({ userInput, onGameOver }) {
+    const { width, height } = useWindowDimensions()
     const initialGuess = generateRandomBetween(0, 100, userInput)
     const [currentGuess, setCurrentGuess] = useState(initialGuess)
     const [totoalGuesses, setTotoalGuesses] = useState([initialGuess])
@@ -52,33 +53,47 @@ function GameScreen({ userInput, onGameOver }) {
         setTotoalGuesses(prevGuesses => [newGuess, ...prevGuesses])
     }
     let guessRoundListLength = totoalGuesses.length
-    return (
-
-        <View style={style.screen}>
-
-            <Title>Opponent's Gues</Title>
+    let content = <>
+     <Title>Opponent's Gues</Title>
             <NumberContainer>{currentGuess}</NumberContainer>
-            <View>
-                {/* <View> */}
-                <Card>
-                    <InstructionComponent style={style.textBottomSpace}>Higher or Lower?</InstructionComponent>
-                    <View style={style.buttonsContainer}>
-                        <View style={style.buttonContainer}>
-                            <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'higher')}>+</PrimaryButton>
-                        </View>
-                        <View style={style.buttonContainer}>
-                            <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'lower')}>-</PrimaryButton>
-                        </View>
-                    </View>
-                    {/* </View> */}
-                </Card>
-                {/* { totoalGuesses.map( guess => <Text style={{color:'white'}}>{guess}</Text> ) } */}
+    <View>
+        <Card>
+            <InstructionComponent style={style.textBottomSpace}>Higher or Lower?</InstructionComponent>
+            <View style={style.buttonsContainer}>
+                <View style={style.buttonContainer}>
+                    <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'higher')}>+</PrimaryButton>
+                </View>
+                <View style={style.buttonContainer}>
+                    <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'lower')}>-</PrimaryButton>
+                </View>
             </View>
+        </Card>
+        </View>
+    </>
+    if (height < 480) {
+        content = <>
+        <Title>Opponent's Gues</Title>
+         <View style={style.buttonsContainer}>
+                <View style={style.buttonContainer}>
+                    <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'higher')}>+</PrimaryButton>
+                </View>
+                <View style={style.buttonContainer}>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                </View>
+                <View style={style.buttonContainer}>
+                    <PrimaryButton onPressBtn={nextGuessHandler.bind(this, 'lower')}>-</PrimaryButton>
+                </View>
+            </View>
+        </>
+    }
 
+    return (
+        <View style={style.screen}>
+            {content}
             <FlatList
                 data={totoalGuesses}
                 renderItem={(itemData) => <GuessLoginItem roundNumber={guessRoundListLength - itemData.index} guess={itemData.item} />}
-                keyExtractor={({ item }) => item}
+                key={({ item }) => item}
             />
         </View>
     )
@@ -91,11 +106,13 @@ const style = StyleSheet.create({
         flex: 1,
     },
     buttonsContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     screen: {
         flex: 1,
-        padding: 24
+        padding: 24,
     },
 
 })

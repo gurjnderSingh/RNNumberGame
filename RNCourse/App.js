@@ -4,6 +4,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import GameScreen from './Screens/GameScreen';
 import StartGameScreen from './Screens/StartGame';
 import GameOverScreen from './Screens/GameOverScreen';
+// import Orientation from 'react-native-orientation';
 
 function App() {
   const [userNumber, setUserNumber] = useState()
@@ -16,7 +17,6 @@ function App() {
   let Screen = <StartGameScreen onNumberConfirmed={showGameScreen} />
 
   function onGameFinished(totalRounds) {
-    console.log(gameOver)
     setGameOver(true)
     setTotalRounds(totalRounds)
   }

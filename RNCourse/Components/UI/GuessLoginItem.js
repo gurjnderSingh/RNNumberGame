@@ -1,11 +1,12 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
+import { keyExtractor } from 'react-native/Libraries/Lists/VirtualizeUtils'
 import Colors from '../../Constants/colors'
 function GuessLoginItem({guess, roundNumber}) {
     return (
         <View style={style.rootContainer}>
-            <Text style={style.text}>#{roundNumber} </Text>
-            <Text style={style.text}>{guess} </Text>
+            <Text style={style.text} keyExtractor = {roundNumber}>#{roundNumber} </Text>
+            <Text style={style.text} keyExtractor = {roundNumber}>{guess} </Text>
         </View>
     )
 }
